@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-ai-mcp-client
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-5
+          temperature: 1
+    mcp:
+      client:
+        toolcallback:
+          enabled: true
+        streamable-http:
+          connections:
+            demo-server:
+              url: http://localhost:8081
+              # endpoint: /mcp   # (opcional, default)
