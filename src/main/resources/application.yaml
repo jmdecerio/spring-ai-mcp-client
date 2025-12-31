@@ -17,6 +17,12 @@ spring:
           enabled: true
         streamable-http:
           connections:
-            demo-server:
-              url: http://localhost:8081
-              # endpoint: /mcp   # (opcional, default)
+            tavily-server:
+              url: "https://mcp.tavily.com"
+              endpoint: "/mcp/?tavilyApiKey=${TAVILY_API_KEY}"
+logging:
+  level:
+    io.modelcontextprotocol: DEBUG
+    org.springframework.ai.mcp: DEBUG
+    org.springframework.ai.tool: DEBUG
+    org.springframework.ai.chat: DEBUG
