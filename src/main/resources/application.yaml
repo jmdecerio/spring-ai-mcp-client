@@ -19,3 +19,7 @@ spring:
             tavily-server:
               url: "https://mcp.tavily.com"
               endpoint: "/mcp?tavilyApiKey=${TAVILY_API_KEY}"
+tools:
+  toload:
+    - tavily_search
+    - tavili_extract

@@ -1,12 +1,18 @@
 package com.jmdecerio.spring_ai_mcp_client.controllers;
 
+import com.jmdecerio.spring_ai_mcp_client.config.ToolsProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.ai.tool.ToolCallback;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -17,12 +23,14 @@ public class ChatController {
     private final ToolCallback[] tavilyTools;
 
     public ChatController(ChatClient.Builder chatClientBuilder,
-                          SyncMcpToolCallbackProvider mcpTools) {
+                          SyncMcpToolCallbackProvider mcpTools,
+                          ToolsProperties props) {
         this.chatClient = chatClientBuilder.build();
 
+        var toolsToLoad = props.toload();
+
         this.tavilyTools = Arrays.stream(mcpTools.getToolCallbacks())
-                .filter(tc -> (tc.getToolDefinition().name().equals("tavily_search")
-                        || tc.getToolDefinition().name().equals("tavily_extract")))
+                .filter(tc -> toolsToLoad.contains(tc.getToolDefinition().name()))
                 .toArray(ToolCallback[]::new);
     }
 
